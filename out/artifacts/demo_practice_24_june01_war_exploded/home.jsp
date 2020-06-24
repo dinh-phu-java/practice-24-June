@@ -13,6 +13,7 @@
 </head>
 <body>
         <p>User: ${loginUser.name}</p>
+        <p>Amount: ${loginUser.amount}</p>
         <table border="1">
             <tr>
                 <th>Name</th>
