@@ -71,39 +71,47 @@ public class DatabaseHandler {
         return user;
     }
 
-    public void updateMinusAmount(Connection conn,double amountTransfer, int updateId,double userAmount){
+    public void updateMinusAmount(Connection conn,double amountTransfer, int updateId,double userAmount) throws SQLException {
 //        Connection conn=getConnection();
         String sqlStatement="update users set amount=(? - ?) where id=?";
         PreparedStatement preparedStatement=null;
 
-        try {
+
             preparedStatement=conn.prepareStatement(sqlStatement);
             preparedStatement.setDouble(1,userAmount);
             preparedStatement.setDouble(2,amountTransfer);
             preparedStatement.setDouble(3,updateId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
 
     }
 
-    public void updatePlusAmount(Connection conn,double amountTransfer, int updateId,double userAmount){
+    public void insertUser(User user) throws SQLException {
+        Connection connection = getConnection();
+        String sqlStatment= "insert into users(name,username,password,amount) value(?,?,?,?)";
+        PreparedStatement preparedStatement=connection.prepareStatement(sqlStatment);
+        preparedStatement.setString(1,user.getName());
+        preparedStatement.setString(2,user.getUsername());
+        preparedStatement.setString(3,user.getPassword());
+        preparedStatement.setDouble(4,user.getAmount());
+
+        preparedStatement.executeUpdate();
+    }
+
+    public void updatePlusAmount(Connection conn,double amountTransfer, int updateId,double userAmount) throws SQLException {
 //        Connection conn=getConnection();
         String sqlStatement="update users set amount=(? + ?) where id=?";
         PreparedStatement preparedStatement=null;
 
-        try {
+
             preparedStatement=conn.prepareStatement(sqlStatement);
             preparedStatement.setDouble(1,userAmount);
             preparedStatement.setDouble(2,amountTransfer);
             preparedStatement.setDouble(3,updateId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
 
     }
 //    public static void main(String[] args) {

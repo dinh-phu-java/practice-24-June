@@ -56,6 +56,9 @@ public class MainServlet extends HttpServlet {
                 break;
         }
         User transferUser=dbHandler.selectUserById(transferId);
+
+
+
         session.setAttribute("transferUser",transferUser);
         getServletContext().getRequestDispatcher(url).forward(request,response);
     }

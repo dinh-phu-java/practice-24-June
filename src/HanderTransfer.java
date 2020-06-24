@@ -16,16 +16,16 @@ public class HanderTransfer extends HttpServlet {
         User fromUser=(User)request.getSession().getAttribute("loginUser");
         User toUser=(User)request.getSession().getAttribute("transferUser");
         System.out.println(toUser.getName());
-        String url="/home.jsp";
+        String url="/index.jsp";
         Connection connection=dbHandler.getConnection();
         try {
             connection.setAutoCommit(false);
 
             dbHandler.updateMinusAmount(connection,amount,fromUser.getId(),fromUser.getAmount());
             dbHandler.updatePlusAmount(connection,amount,toUser.getId(),toUser.getAmount());
+
             connection.commit();
             connection.close();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             if (connection!=null) {
@@ -33,6 +33,14 @@ public class HanderTransfer extends HttpServlet {
                     connection.rollback();
                 } catch (SQLException e) {
                     e.printStackTrace();
+                }
+            }
+        }finally {
+            if (connection!=null){
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
         }
